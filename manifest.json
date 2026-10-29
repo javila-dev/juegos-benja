@@ -1,0 +1,14 @@
+{
+  "name": "Juegos de Benja",
+  "short_name": "Juegos Benja",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#c2e9fb",
+  "theme_color": "#7b61ff",
+  "icons": [
+    { "src": "icon-180.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

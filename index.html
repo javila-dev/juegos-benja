@@ -17,6 +17,7 @@
   --p0:#ff6b6b; --p1:#4dabf7; --p2:#40c057;
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html,body{margin:0;height:100%;overflow:hidden;overscroll-behavior:none}
 body{
   position:fixed;inset:0;
@@ -46,25 +47,28 @@ button{font-family:inherit;color:inherit;cursor:pointer;touch-action:manipulatio
 
 /* menú */
 .hello{text-align:center;font-size:clamp(30px,6vw,60px);font-weight:900;margin:4px 0 0;text-shadow:0 3px 0 #fff}
+/* filas de botones: .big y .third = 3 por fila, .half = 2, .q = 4, normal = 5 */
 .tiles{
-  display:grid;grid-template-columns:repeat(10,1fr);gap:20px;
+  display:flex;flex-wrap:wrap;gap:20px;justify-content:center;
   max-width:1060px;width:100%;margin:auto;padding:16px 4px 24px;
 }
-.tiles>.tile{grid-column:span 2;min-width:0}
-.tiles>.tile.big{grid-column:span 5}
+.tiles>.tile{flex:0 0 calc((100% - 80px) / 5);min-width:0}
+.tiles>.tile.big,.tiles>.tile.third{flex-basis:calc((100% - 40px) / 3)}
+.tiles>.tile.half{flex-basis:calc((100% - 20px) / 2)}
+.tiles>.tile.q{flex-basis:calc((100% - 60px) / 4)}
 @media (max-width:640px){
-  .tiles{grid-template-columns:repeat(2,1fr)}
-  .tiles>.tile{grid-column:span 1}
-  .tiles>.tile.big{grid-column:span 2}
+  .tiles>.tile,.tiles>.tile.third,.tiles>.tile.q{flex-basis:calc((100% - 20px) / 2)}
+  .tiles>.tile.big,.tiles>.tile.half{flex-basis:100%}
 }
 .tile{
   border:none;border-radius:32px;padding:18px 10px;font-size:clamp(22px,3vw,30px);font-weight:900;color:#fff;
-  box-shadow:0 8px 0 rgba(0,0,0,.18);display:flex;flex-direction:column;align-items:center;gap:6px;
+  box-shadow:0 8px 0 rgba(0,0,0,.18);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
   text-shadow:0 2px 0 rgba(0,0,0,.18);
 }
 .tile .em{font-size:clamp(56px,9vw,86px);line-height:1.1;text-shadow:none}
-.tile.big{flex-direction:row;justify-content:center;gap:20px;font-size:clamp(26px,3.6vw,42px)}
-.tile.big .em{font-size:clamp(60px,8.5vw,96px)}
+.tile.big,.tile.half{flex-direction:row;gap:18px;font-size:clamp(26px,3.4vw,40px)}
+.tile.big .em,.tile.half .em{font-size:clamp(60px,8vw,92px)}
+@media (max-width:900px) and (min-width:641px){ .tile.big{flex-direction:column;gap:2px} }
 .tile small{font-size:.6em;opacity:.95}
 
 /* configuración memoria */
@@ -219,6 +223,40 @@ button{font-family:inherit;color:inherit;cursor:pointer;touch-action:manipulatio
 .fcard.bump{animation:yay .5s}
 .dots{text-align:center;font-weight:900;font-size:20px;color:#5c4d7d;flex-shrink:0;padding-bottom:4px}
 
+/* retos */
+#qOpts.hide{visibility:hidden}
+#qOpts.six{gap:14px}
+#qOpts.six .qopt{width:min(14vw,19vh,150px);height:min(14vw,19vh,150px);font-size:min(10vw,12vh,92px);border-radius:28px}
+#quiz.full #qOpts{display:none}
+#quiz.full #qPrompt{flex:1;gap:10px}
+#qPrompt{gap:8px}
+.prow{display:flex;gap:min(1.6vw,14px);flex-wrap:wrap;justify-content:center;align-items:center;background:rgba(255,255,255,.7);border-radius:30px;padding:14px 18px;max-width:96%}
+.pitem{font-size:min(8.5vw,10vh,84px);line-height:1;width:1.15em;height:1.15em;display:flex;align-items:center;justify-content:center}
+.pitem.q{background:#fff;border:4px dashed #7b61ff;border-radius:18px;color:#7b61ff;font-weight:900;font-size:min(7vw,8vh,64px);width:1.4em;height:1.4em}
+.pitem.fill{animation:yay .6s;background:#d3f9d8;border-radius:18px;font-weight:900;color:#2b8a3e}
+.sum{display:flex;align-items:center;gap:min(2vw,18px);flex-wrap:wrap;justify-content:center}
+.grp{display:flex;flex-direction:column;align-items:center;background:rgba(255,255,255,.85);border-radius:26px;padding:10px 14px;gap:4px}
+.grp .its{display:flex;flex-wrap:wrap;max-width:5.6em;justify-content:center;font-size:min(6vw,7vh,52px);line-height:1.1}
+.grp .n{font-size:min(7vw,8vh,62px);font-weight:900;color:#7b61ff;line-height:1}
+.op{font-size:min(9vw,10vh,80px);font-weight:900;color:#5c4d7d}
+.x{position:relative;display:inline-block}
+.x b{font-weight:400;filter:grayscale(1);opacity:.35}
+.x::after{content:"✖";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fa5252;font-weight:900;font-size:.9em}
+.findHead{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;flex-shrink:0}
+.find{flex:1;width:100%;display:grid;gap:8px;justify-content:center;align-content:center;min-height:0}
+.find button{background:rgba(255,255,255,.85);border:none;border-radius:16px;line-height:1;padding:0;font-size:var(--fs)}
+.find button.got{background:#d3f9d8;box-shadow:0 0 0 4px #40c057}
+.find button.no{animation:shake .4s;background:#ffe3e3}
+.simonArea{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;min-height:0}
+.pads{display:grid;grid-template-columns:1fr 1fr;gap:18px;width:min(90vw,calc(100vh - 300px),620px);height:min(90vw,calc(100vh - 300px),620px)}
+.pad{border:none;border-radius:40px;background:var(--c);opacity:.45;box-shadow:0 8px 0 rgba(0,0,0,.2);transition:opacity .08s,transform .08s,filter .08s;touch-action:none}
+.pad:nth-child(1){border-top-left-radius:50%}.pad:nth-child(2){border-top-right-radius:50%}
+.pad:nth-child(3){border-bottom-left-radius:50%}.pad:nth-child(4){border-bottom-right-radius:50%}
+.pad.lit{opacity:1;transform:scale(1.04);filter:brightness(1.2);box-shadow:0 0 40px var(--c)}
+.sstat{text-align:center;font-size:clamp(24px,4vw,36px);font-weight:900;min-height:1.3em}
+#mazeWrap{flex:1;display:flex;align-items:center;justify-content:center;min-height:0;padding-top:8px}
+#mz{touch-action:none;border-radius:20px;background:#fff;box-shadow:0 8px 0 rgba(0,0,0,.14)}
+
 /* globos */
 #sky{flex:1;position:relative;overflow:hidden;border-radius:30px;background:linear-gradient(#bde0fe 0%,#e7f5ff 100%);margin-top:6px}
 .cloud{position:absolute;font-size:90px;opacity:.85;animation:drift 40s linear infinite}
@@ -255,7 +293,8 @@ button{font-family:inherit;color:inherit;cursor:pointer;touch-action:manipulatio
     <h1 class="hello">¡Hola Benja! 🦖</h1>
     <div class="tiles">
       <button class="tile big" data-start="memoria" style="background:linear-gradient(135deg,#ff6b6b,#f06595)"><span class="em">🃏</span><span>Memoria<br><small>¡1 vs 1 vs 1!</small></span></button>
-      <button class="tile big" data-go="english" style="background:linear-gradient(135deg,#339af0,#1864ab)"><span class="em">🇺🇸</span><span>English<br><small>¡Aprende inglés!</small></span></button>
+      <button class="tile big" data-go="english" style="background:linear-gradient(135deg,#339af0,#1864ab)"><span class="em">🇺🇸</span><span>English<br><small>Inglés</small></span></button>
+      <button class="tile big" data-go="retos" style="background:linear-gradient(135deg,#845ef7,#5f3dc4)"><span class="em">🧠</span><span>Retos<br><small>¡Para pensar!</small></span></button>
       <button class="tile" data-start="contar" style="background:linear-gradient(135deg,#4dabf7,#3b5bdb)"><span class="em">🔢</span>Contar</button>
       <button class="tile" data-start="sombras" style="background:linear-gradient(135deg,#9775fa,#6741d9)"><span class="em">👤</span>Sombras</button>
       <button class="tile" data-start="colores" style="background:linear-gradient(135deg,#ffa94d,#f76707)"><span class="em">🎨</span>Colores</button>
@@ -263,6 +302,54 @@ button{font-family:inherit;color:inherit;cursor:pointer;touch-action:manipulatio
       <button class="tile" data-start="globos" style="background:linear-gradient(135deg,#f783ac,#d6336c)"><span class="em">🎈</span>Globos</button>
     </div>
   </div>
+</section>
+
+<!-- RETOS -->
+<section class="screen" id="retos">
+  <div class="bar">
+    <button class="iconbtn" data-go="menu" aria-label="Inicio">🏠</button>
+    <div class="title">🧠 Retos</div>
+    <button class="iconbtn snd" aria-label="Sonido">🔊</button>
+  </div>
+  <div class="scroll">
+    <div class="tiles">
+      <button class="tile q" data-start="simon" style="background:linear-gradient(135deg,#ff6b6b,#c92a2a)"><span class="em">🚦</span>Simón<small>Repite la secuencia</small></button>
+      <button class="tile q" data-start="laberinto" style="background:linear-gradient(135deg,#9775fa,#5f3dc4)"><span class="em">🌀</span>Laberinto<small>Encuentra el camino</small></button>
+      <button class="tile q" data-start="falta" style="background:linear-gradient(135deg,#339af0,#1864ab)"><span class="em">🙈</span>¿Qué falta?<small>Memoria</small></button>
+      <button class="tile q" data-start="sigue" style="background:linear-gradient(135deg,#20c997,#087f5b)"><span class="em">🔮</span>¿Qué sigue?<small>Patrones</small></button>
+      <button class="tile q" data-start="sumas" style="background:linear-gradient(135deg,#fcc419,#e67700)"><span class="em">➕</span>Sumas<small>y restas</small></button>
+      <button class="tile q" data-start="intruso" style="background:linear-gradient(135deg,#f783ac,#c2255c)"><span class="em">🤔</span>¿Cuál no va?<small>Pensar</small></button>
+      <button class="tile q" data-start="encuentra" style="background:linear-gradient(135deg,#51cf66,#2b8a3e)"><span class="em">🔍</span>Encuentra<small>Mirada de águila</small></button>
+      <button class="tile q" data-start="inicial" style="background:linear-gradient(135deg,#ff922b,#d9480f)"><span class="em">🅰️</span>¿Con qué empieza?<small>Letras y sonidos</small></button>
+    </div>
+  </div>
+</section>
+
+<!-- SIMÓN -->
+<section class="screen" id="simon">
+  <div class="bar">
+    <button class="iconbtn" data-go="retos" aria-label="Volver">⬅️</button>
+    <div class="title">🚦 Simón</div>
+    <div class="stars" id="sBest">🏆 0</div>
+    <button class="iconbtn snd" aria-label="Sonido">🔊</button>
+  </div>
+  <div class="simonArea">
+    <div class="pads" id="pads"></div>
+    <div class="sstat" id="sStat"></div>
+    <button class="bigbtn" id="sGo">▶ Empezar</button>
+  </div>
+</section>
+
+<!-- LABERINTO -->
+<section class="screen" id="maze">
+  <div class="bar">
+    <button class="iconbtn" data-go="retos" aria-label="Volver">⬅️</button>
+    <div class="title" id="mTitle">🌀 Laberinto</div>
+    <button class="iconbtn" id="mNew" aria-label="Otro laberinto">🔄</button>
+    <button class="iconbtn snd" aria-label="Sonido">🔊</button>
+  </div>
+  <div id="mazeWrap"><canvas id="mz"></canvas></div>
+  <div class="dots" id="mHint">Arrastra el dedo por el camino 👆</div>
 </section>
 
 <!-- INGLÉS -->
@@ -273,14 +360,15 @@ button{font-family:inherit;color:inherit;cursor:pointer;touch-action:manipulatio
     <button class="iconbtn snd" aria-label="Sonido">🔊</button>
   </div>
   <div class="scroll">
-    <div class="tiles five">
-      <button class="tile big" data-start="learn" style="background:linear-gradient(135deg,#339af0,#1864ab)"><span class="em">📖</span><span>Learn<br><small>Aprende palabras</small></span></button>
-      <button class="tile big" data-start="en_memory" style="background:linear-gradient(135deg,#ff6b6b,#f06595)"><span class="em">🃏</span><span>Memory<br><small>Memoria en inglés</small></span></button>
-      <button class="tile" data-start="en_words" style="background:linear-gradient(135deg,#9775fa,#6741d9)"><span class="em">👂</span>Words<small>¿Dónde está?</small></button>
-      <button class="tile" data-start="en_colors" style="background:linear-gradient(135deg,#ffa94d,#f76707)"><span class="em">🌈</span>Colors<small>Colores</small></button>
-      <button class="tile" data-start="en_numbers" style="background:linear-gradient(135deg,#38d9a9,#0ca678)"><span class="em">🔢</span>Numbers<small>Contar</small></button>
-      <button class="tile" data-start="en_body" style="background:linear-gradient(135deg,#f783ac,#d6336c)"><span class="em">👃</span>My body<small>Mi cuerpo</small></button>
-      <button class="tile" data-start="en_say" style="background:linear-gradient(135deg,#ffd43b,#f08c00)"><span class="em">👋</span>Hello!<small>Frases</small></button>
+    <div class="tiles">
+      <button class="tile half" data-start="learn" style="background:linear-gradient(135deg,#339af0,#1864ab)"><span class="em">📖</span><span>Learn<br><small>Aprende palabras</small></span></button>
+      <button class="tile half" data-start="en_memory" style="background:linear-gradient(135deg,#ff6b6b,#f06595)"><span class="em">🃏</span><span>Memory<br><small>Memoria en inglés</small></span></button>
+      <button class="tile third" data-start="en_words" style="background:linear-gradient(135deg,#9775fa,#6741d9)"><span class="em">👂</span>Words<small>¿Dónde está?</small></button>
+      <button class="tile third" data-start="en_colors" style="background:linear-gradient(135deg,#ffa94d,#f76707)"><span class="em">🌈</span>Colors<small>Colores</small></button>
+      <button class="tile third" data-start="en_numbers" style="background:linear-gradient(135deg,#38d9a9,#0ca678)"><span class="em">🔢</span>Numbers<small>Contar</small></button>
+      <button class="tile third" data-start="en_body" style="background:linear-gradient(135deg,#f783ac,#d6336c)"><span class="em">👃</span>My body<small>Mi cuerpo</small></button>
+      <button class="tile third" data-start="en_say" style="background:linear-gradient(135deg,#ffd43b,#f08c00)"><span class="em">👋</span>Hello!<small>Frases</small></button>
+      <button class="tile third" data-start="en_listen" style="background:linear-gradient(135deg,#22b8cf,#0b7285)"><span class="em">🎧</span>Listen!<small>Escucha y toca en orden</small></button>
     </div>
   </div>
 </section>
@@ -312,6 +400,7 @@ button{font-family:inherit;color:inherit;cursor:pointer;touch-action:manipulatio
     <div class="wrap">
       <h2>¿Quién juega?</h2>
       <div class="players" id="players"></div>
+      <div id="robotLvl"></div>
       <h2>¿Qué cartas?</h2>
       <div class="opts" id="themes"></div>
       <h2>¿Cuántas cartas?</h2>
@@ -402,8 +491,12 @@ const S = {
     : [{ name: 'Benja', av: '🦖', robot: false }, { name: 'Mamá', av: '🦄', robot: false }],
   theme: saved.theme || 'animales',
   pairs: saved.pairs || 6,
+  robotLvl: saved.robotLvl ?? 1,
+  simonBest: saved.simonBest || 0,
 };
-function persist() { try { localStorage.setItem(KEY, JSON.stringify({ sound: S.sound, players: S.players, theme: S.theme, pairs: S.pairs })); } catch (e) {} }
+function persist() {
+  try { localStorage.setItem(KEY, JSON.stringify({ sound: S.sound, players: S.players, theme: S.theme, pairs: S.pairs, robotLvl: S.robotLvl, simonBest: S.simonBest })); } catch (e) {}
+}
 
 /* ---------- sonido ---------- */
 let ac = null;
@@ -538,7 +631,8 @@ const praise = () => PRAISE[rnd(PRAISE.length)];
 const AVATARS = ['🦖', '🦄', '🦁', '🐼', '🦊', '🐸', '🐵', '🐯', '🐰', '🐶', '🐱', '🐻', '🐨', '🐧', '🦋', '🐙', '🚀', '⚽', '👸', '🦸'];
 const PC = ['#ff6b6b', '#4dabf7', '#40c057'];
 const DEFAULT_P = [{ name: 'Benja', av: '🦖' }, { name: 'Mamá', av: '🦄' }, { name: 'Papá', av: '🦁' }];
-const SIZES = [[4, '🐣', 'Fácil'], [6, '🐥', 'Normal'], [8, '🐔', 'Difícil'], [10, '🦅', '¡Súper!']];
+const SIZES = [[4, '🐣', 'Fácil'], [6, '🐥', 'Normal'], [8, '🐔', 'Difícil'], [10, '🦅', '¡Súper!'], [12, '🐉', '¡Experto!'], [15, '🏆', '¡Campeón!']];
+const ROBOT_LEVELS = [['🙂', 'Fácil', .3], ['🤓', 'Listo', .6], ['😈', '¡Genio!', .9]];
 
 /* ---------- navegación ---------- */
 let balloonTimer = null;
@@ -555,6 +649,7 @@ document.addEventListener('click', e => {
   if (go) {
     sfx.tick(); show(go.dataset.go);
     if (go.dataset.go === 'menu') say('¿A qué jugamos?');
+    if (go.dataset.go === 'retos') say('¡Retos para pensar!');
     if (go.dataset.go === 'english') sayQ([["Let's learn English!", 'en'], ['¡Vamos a aprender inglés!', 'es']]);
     return;
   }
@@ -565,6 +660,8 @@ document.addEventListener('click', e => {
     if (k === 'memoria') { show('setup'); say('Memoria. ¿Quién juega?'); }
     else if (k === 'en_memory') { S.theme = 'english'; persist(); show('setup'); sayQ([['Memory!', 'en'], ['¿Quién juega?', 'es']]); }
     else if (k === 'globos') startBalloons();
+    else if (k === 'simon') startSimon();
+    else if (k === 'laberinto') startMaze();
     else if (k === 'learn') startLearn();
     else startQuiz(k);
   }
@@ -599,6 +696,10 @@ function renderSetup() {
       <button class="type" data-act="type" data-i="${i}">${p.robot ? '🤖 Robot' : '🙂 Persona'}</button>
     </div>`).join('') +
     (ps.length < 3 ? '<button class="pcard addp" data-act="add">＋<small>Jugador</small></button>' : '');
+  $('#robotLvl').innerHTML = ps.some(p => p.robot)
+    ? '<h2>🤖 ¿Qué tan listo es el robot?</h2><div class="opts">' + ROBOT_LEVELS.map(([em, label], i) =>
+      `<button class="opt ${S.robotLvl === i ? 'sel' : ''}" data-rl="${i}"><span class="em">${em}</span>${label}</button>`).join('') + '</div>'
+    : '';
   $('#themes').innerHTML = Object.entries(THEMES).map(([k, t]) =>
     `<button class="opt ${S.theme === k ? 'sel' : ''}" data-theme="${k}"><span class="em">${t.em}</span>${t.name}</button>`).join('');
   $('#sizes').innerHTML = SIZES.map(([n, em, label]) =>
@@ -616,6 +717,10 @@ $('#players').addEventListener('click', e => {
 });
 $('#players').addEventListener('input', e => {
   if (e.target.matches('input')) { S.players[+e.target.dataset.i].name = e.target.value; persist(); }
+});
+$('#robotLvl').addEventListener('click', e => {
+  const b = e.target.closest('[data-rl]'); if (!b) return;
+  S.robotLvl = +b.dataset.rl; persist(); renderSetup(); sfx.tick(); say(ROBOT_LEVELS[S.robotLvl][1]);
 });
 $('#themes').addEventListener('click', e => {
   const b = e.target.closest('[data-theme]'); if (!b) return;
@@ -661,7 +766,6 @@ function buildDeck(theme, pairs) {
 }
 
 const M = { deck: [], up: [], cur: 0, starter: 0, scores: [], lock: true, tries: 0, found: 0, seen: new Map(), players: [], over: false };
-const ROBOT_MEMORY = 0.5; // probabilidad de que el robot recuerde una carta vista (más alto = más difícil)
 const pName = i => M.players[i].robot ? 'Robot' : (M.players[i].name.trim() || `Jugador ${i + 1}`);
 const pAv = i => M.players[i].robot ? '🤖' : M.players[i].av;
 const cardEl = i => $('#grid').children[i];
@@ -781,7 +885,7 @@ async function robotTurn() {
   const g = gen;
   await sleep(900); if (g !== gen || M.lock) return;
   const open = M.deck.map((_, i) => i).filter(i => !cardEl(i).classList.contains('matched'));
-  const mem = [...M.seen.entries()].filter(([i]) => open.includes(i) && Math.random() < ROBOT_MEMORY);
+  const mem = [...M.seen.entries()].filter(([i]) => open.includes(i) && Math.random() < ROBOT_LEVELS[S.robotLvl][2]); // nivel = probabilidad de recordar cada carta vista
   const inMem = i => mem.some(m => m[0] === i);
   let first = null, second = null;
   for (let x = 0; x < mem.length && first === null; x++)
@@ -812,7 +916,7 @@ function endMemory() {
   const n = M.players.length;
   let em, title, speech, html = '';
   if (n === 1) {
-    const ratio = M.tries / S.pairs;
+    const ratio = M.tries / (M.deck.length / 2);
     const stars = ratio <= 1.6 ? 3 : ratio <= 2.4 ? 2 : 1;
     em = '🏆'; title = '¡Lo lograste!';
     speech = `¡Muy bien ${pName(0)}! Encontraste todas las parejas`;
@@ -881,6 +985,218 @@ function makeCount(stars, en) {
       };
 }
 
+/* ---------- RETOS: datos ---------- */
+const deaccent = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '');
+const LN = Object.fromEntries(LETTERS.map(l => [l[0], l[1]]));
+
+// ¿Qué sigue? — unidades de patrón por nivel
+const PAT_SETS = [['🔴', '🔵', '🟡', '🟢', '🟣'], ['🐶', '🐱', '🐰', '🐻', '🐸'], ['⭐', '🌙', '☀️', '☁️', '⚡'], ['🍎', '🍌', '🍇', '🍊', '🍓'], ['🚗', '✈️', '🚂', '🚢', '🚲'], ['🟥', '🔺', '🟦', '⭐', '❤️']];
+const PATTERNS = [{ u: [0, 1], lv: 0 }, { u: [0, 1, 2], lv: 1 }, { u: [0, 0, 1], lv: 1 }, { u: [0, 1, 1], lv: 2 }, { u: [0, 0, 1, 1], lv: 2 }, { u: [0, 1, 2, 3], lv: 3 }, { u: [0, 1, 0, 2], lv: 3 }, { u: [0, 0, 1, 2], lv: 3 }];
+function makePattern(stars) {
+  const lv = stars < 4 ? 0 : stars < 9 ? 1 : stars < 15 ? 2 : 3;
+  const cand = PATTERNS.filter(p => p.lv <= lv && p.lv >= lv - 1);
+  const pt = cand[rnd(cand.length)], ul = pt.u.length;
+  const set = pick(PAT_SETS[rnd(PAT_SETS.length)], 5);
+  const len = Math.min(10, Math.max(6, ul * 2 + 2));
+  const seq = Array.from({ length: len }, (_, i) => set[pt.u[i % ul]]);
+  const miss = lv < 2 || Math.random() < .5 ? len - 1 : ul + rnd(len - ul - 1);
+  const ans = seq[miss];
+  const used = [...new Set(pt.u)].map(k => set[k]);
+  const extra = set.filter(x => !used.includes(x));
+  let opts = [...used];
+  while (opts.length < 3) opts.push(extra.shift());
+  opts = shuffle(opts.slice(0, 4));
+  const mid = miss !== len - 1;
+  return {
+    back: 'retos',
+    prompt: `<div class="prow">${seq.map((x, i) => i === miss ? '<span class="pitem q">?</span>' : `<span class="pitem">${x}</span>`).join('')}</div><div class="ask">${mid ? '¿Qué falta?' : '¿Qué sigue?'}</div>`,
+    ask: mid ? '¿Qué falta en el patrón?' : '¿Qué sigue en el patrón?',
+    options: opts.map(x => ({ html: x, ok: x === ans, no: 'Mmm, no. Mira el patrón otra vez.' })),
+    win() { const q = $('#qPrompt .pitem.q'); q.textContent = ans; q.className = 'pitem fill'; say('¡Muy bien! ¡Encontraste el patrón!'); return 2000; },
+  };
+}
+
+// Sumas y restas con dibujos
+function makeSum(stars) {
+  const sub = stars >= 8 && Math.random() < .5;
+  const max = stars < 5 ? 5 : 10;
+  let a, b, ans;
+  if (sub) { a = 3 + rnd(stars < 14 ? 4 : 8); b = 1 + rnd(a - 1); ans = a - b; }
+  else { const min = stars < 5 ? 2 : stars < 10 ? 4 : 6; ans = min + rnd(max - min + 1); a = 1 + rnd(ans - 1); b = ans - a; }
+  const em = COUNT_EMOJI[rnd(COUNT_EMOJI.length)];
+  const grp = (n, crossFrom) => `<div class="grp"><div class="its">${Array.from({ length: n }, (_, i) =>
+    crossFrom != null && i >= crossFrom ? `<span class="x"><b>${em}</b></span>` : `<span>${em}</span>`).join('')}</div><div class="n">${n}</div></div>`;
+  const prompt = sub
+    ? `<div class="sum">${grp(a, a - b)}<span class="op">−</span><div class="grp"><div class="n">${b}</div></div><span class="op">=</span><span class="pitem q">?</span></div>`
+    : `<div class="sum">${grp(a)}<span class="op">+</span>${grp(b)}<span class="op">=</span><span class="pitem q">?</span></div>`;
+  const choices = new Set([ans]);
+  while (choices.size < 3) { const c = ans + rnd(5) - 2; if (c >= 0 && c <= 10) choices.add(c); }
+  return {
+    prompt,
+    ask: sub ? `Tienes ${NUM[a]}. Se van ${NUM[b]}. ¿Cuántos quedan?` : `¿Cuánto es ${NUM[a]} más ${NUM[b]}?`,
+    options: shuffle([...choices]).map(c => ({ html: c, ok: c === ans, no: `${NUM[c]}... no. ¡Cuenta con los dedos!` })),
+    win() {
+      const q = $('#qPrompt .pitem.q'); q.textContent = ans; q.className = 'pitem fill';
+      say(sub ? `¡${NUM[a]} menos ${NUM[b]} es ${NUM[ans]}!` : `¡${NUM[a]} más ${NUM[b]} es ${NUM[ans]}!`);
+      return 2700;
+    },
+  };
+}
+
+// ¿Cuál no va? — categorías; con más estrellas se usan categorías parecidas
+const CATS = {
+  granja: { n: 'animales de la granja', it: ['🐮', '🐷', '🐔', '🐴', '🐑', '🐐', '🦆'] },
+  mar: { n: 'animales del mar', it: ['🐙', '🐠', '🐳', '🐬', '🦈', '🦀', '🦑'] },
+  selva: { n: 'animales salvajes', it: ['🦁', '🐯', '🐘', '🦒', '🦓', '🐊', '🦍'] },
+  frutas: { n: 'frutas', it: ['🍎', '🍌', '🍇', '🍊', '🍓', '🍉', '🍐', '🍒'] },
+  verduras: { n: 'verduras', it: ['🥕', '🥦', '🌽', '🍆', '🥔', '🥒', '🧅'] },
+  calle: { n: 'vehículos de la calle', it: ['🚗', '🚌', '🚕', '🚓', '🚑', '🚜', '🚲'] },
+  aire: { n: 'cosas que vuelan', it: ['✈️', '🚁', '🚀', '🎈', '🪁', '🛸'] },
+  agua: { n: 'cosas que van en el agua', it: ['🚢', '⛵', '🚤', '🛶'] },
+  ropa: { n: 'ropa', it: ['👕', '👖', '👗', '🧦', '🧢', '👟', '🧥'] },
+  musica: { n: 'instrumentos musicales', it: ['🎸', '🥁', '🎺', '🎹', '🎻', '🎷'] },
+  cielo: { n: 'cosas del cielo', it: ['☀️', '🌙', '⭐', '☁️', '🌈', '⚡'] },
+  comida: { n: 'comidas', it: ['🍕', '🍔', '🍟', '🌭', '🍦', '🍩', '🧁'] },
+  colegio: { n: 'cosas del colegio', it: ['✏️', '📚', '✂️', '🖍️', '📏', '🎒'] },
+};
+const CLOSE = [['granja', 'mar'], ['granja', 'selva'], ['mar', 'selva'], ['frutas', 'verduras'], ['calle', 'aire'], ['aire', 'agua'], ['calle', 'agua'], ['comida', 'frutas'], ['verduras', 'comida']];
+function makeOdd(stars) {
+  let A, B;
+  if (stars >= 5 && Math.random() < .65) { const c = CLOSE[rnd(CLOSE.length)]; [A, B] = Math.random() < .5 ? c : [c[1], c[0]]; }
+  else [A, B] = pick(Object.keys(CATS), 2);
+  const odd = pick(CATS[B].it, 1)[0];
+  const items = shuffle([...pick(CATS[A].it, 3), odd]);
+  return {
+    prompt: '<div class="palette">🤔</div><div class="ask">¿Cuál no va con los demás?</div>',
+    ask: '¿Cuál no va con los demás?',
+    options: items.map(x => ({ html: x, ok: x === odd, no: 'Ese sí va con los otros. ¿Cuál es diferente?' })),
+    win() {
+      $('#qPrompt').innerHTML = `<div class="palette">${odd}</div><div class="ask">Los otros son ${CATS[A].n}</div>`;
+      say(`¡Sí! Los otros son ${CATS[A].n}.`); return 2600;
+    },
+  };
+}
+
+// ¿Con qué letra empieza?
+const INITIAL = [['🦆', 'pato'], ['🐶', 'perro'], ['🍕', 'pizza'], ['🐵', 'mono'], ['🍎', 'manzana'], ['🦋', 'mariposa'], ['☀️', 'sol'], ['🐍', 'serpiente'], ['🪑', 'silla'], ['🦁', 'león'], ['🌙', 'luna'], ['🍋', 'limón'], ['🐢', 'tortuga'], ['🚂', 'tren'], ['🍅', 'tomate'], ['🐱', 'gato'], ['🎈', 'globo'], ['🏠', 'casa'], ['🚗', 'carro'], ['🐰', 'conejo'], ['🐋', 'ballena'], ['🚢', 'barco'], ['🍌', 'banano'], ['🐮', 'vaca'], ['⛵', 'velero'], ['🐭', 'ratón'], ['🐸', 'rana'], ['🎁', 'regalo'], ['🦭', 'foca'], ['🍓', 'fresa'], ['🌸', 'flor'], ['☁️', 'nube'], ['🍊', 'naranja'], ['👃', 'nariz'], ['🎲', 'dado'], ['🐬', 'delfín'], ['🦖', 'dinosaurio'], ['🐘', 'elefante'], ['⭐', 'estrella'], ['🐝', 'abeja'], ['✈️', 'avión'], ['🌳', 'árbol'], ['🐻', 'oso'], ['👁️', 'ojo'], ['🍇', 'uvas'], ['🦄', 'unicornio'], ['🏝️', 'isla'], ['🦒', 'jirafa'], ['🧀', 'queso'], ['👟', 'zapato'], ['🥕', 'zanahoria'], ['🐨', 'koala']];
+function makeInitial(stars) {
+  const vowelsOnly = stars < 4;
+  const pool = INITIAL.filter(([, w]) => !vowelsOnly || 'AEIOU'.includes(deaccent(w)[0].toUpperCase()));
+  const [em, w] = pool[rnd(pool.length)];
+  const L = deaccent(w)[0].toUpperCase();
+  const letters = [...new Set(INITIAL.map(([, x]) => deaccent(x)[0].toUpperCase()))].filter(x => x !== L && (!vowelsOnly || 'AEIOU'.includes(x)));
+  const opts = shuffle([L, ...pick(letters, stars < 10 ? 2 : 3)]);
+  return {
+    prompt: `<div class="palette">${em}</div><div class="ask"><span style="color:#e64980">_</span>${w.slice(1).toUpperCase()}</div>`,
+    ask: `${w}... ¿Con qué letra empieza ${w}?`,
+    options: opts.map(x => ({ html: x, ok: x === L, no: `${LN[x] || x}... no. Escucha bien: ${w}.` })),
+    win() {
+      $('#qPrompt').innerHTML = `<div class="palette">${em}</div><div class="ask"><span style="color:#e64980">${w[0].toUpperCase()}</span>${w.slice(1).toUpperCase()}</div>`;
+      say(`¡Sí! ${w} empieza con ${LN[L] || L}.`); return 2400;
+    },
+  };
+}
+
+// ¿Qué falta? — memorizar, cerrar los ojos y adivinar cuál desapareció
+const MISS_POOL = ['🐶', '🐱', '🐮', '🐷', '🐸', '🦁', '🐵', '🐘', '🐰', '🐻', '🦆', '🐢', '🍎', '🍌', '🍇', '⚽', '🚗', '✈️', '🎈', '⭐', '🌙', '🌈', '🧸', '🎁', '🍦', '🚀', '🦖', '🐙'];
+function makeMissing(stars) {
+  const n = Math.min(3 + Math.floor(stars / 3), 8);
+  const items = pick(MISS_POOL, n), miss = rnd(n), missing = items[miss];
+  const rest = items.filter((_, i) => i !== miss);
+  const mix = stars >= 6; // desde aquí los que quedan se revuelven
+  return {
+    prompt: `<div class="prow">${items.map(x => `<span class="pitem">${x}</span>`).join('')}</div><div class="ask">¡Mira bien! 👀</div>`,
+    ask: '¿Qué falta?',
+    options: shuffle([missing, ...pick(rest, n > 4 ? 3 : 2)]).map(x => ({ html: x, ok: x === missing, no: 'Ese sí está. ¿Cuál falta?' })),
+    async start(g) {
+      say('¡Mira bien! Recuérdalos todos.');
+      await sleep(2400 + n * 650); if (g !== gen) return false;
+      $('#qPrompt').innerHTML = '<div class="palette">🙈</div><div class="ask">¡Ojos cerrados!</div>';
+      say('¡Ojos cerrados!');
+      await sleep(1400); if (g !== gen) return false;
+      const row = mix ? shuffle(rest.slice()).map(x => `<span class="pitem">${x}</span>`)
+        : items.map((x, i) => i === miss ? '<span class="pitem q">?</span>' : `<span class="pitem">${x}</span>`);
+      $('#qPrompt').innerHTML = `<div class="prow">${row.join('')}</div><div class="ask">¿Qué falta?</div>`;
+      return true;
+    },
+    win() {
+      const q = $('#qPrompt .pitem.q');
+      if (q) { q.textContent = missing; q.className = 'pitem fill'; }
+      else $('#qPrompt .prow').insertAdjacentHTML('beforeend', `<span class="pitem fill">${missing}</span>`);
+      say('¡Sí! ¡Faltaba ese!'); return 1900;
+    },
+  };
+}
+
+// Encuentra — buscar todos los iguales entre muchos parecidos
+const FIND_SETS = [
+  ['🐸', 'ranas', ['🐶', '🐱', '🐮', '🐷', '🐵']],
+  ['🍎', 'manzanas', ['🍌', '🍇', '🍊', '🍐', '🥝']],
+  ['🐢', 'tortugas', ['🐸', '🦎', '🐊', '🐍', '🦖']],
+  ['🚗', 'carros rojos', ['🚕', '🚙', '🚌', '🚓']],
+  ['🐶', 'perritos', ['🐱', '🐻', '🐼', '🐨', '🦊', '🐹']],
+  ['🍓', 'fresas', ['🍒', '🍅', '🍎', '🌶️']],
+  ['⭐', 'estrellas como esta', ['🌟', '✨', '💫', '☀️']],
+  ['😀', 'caritas como esta', ['😃', '😄', '😁', '😆', '🙂']],
+];
+function makeFind(stars) {
+  const lvl = Math.min(Math.floor(stars / 2), FIND_SETS.length - 1);
+  const [t, name, others] = FIND_SETS[Math.max(0, lvl - rnd(2))];
+  const total = Math.min(12 + stars * 2, 40);
+  const targets = Math.min(2 + Math.floor(stars / 3), 6);
+  const cells = shuffle([...Array(targets).fill(t), ...Array.from({ length: total - targets }, () => others[rnd(others.length)])]);
+  let found = 0;
+  return {
+    full: true,
+    prompt: `<div class="findHead"><span class="ask">Encuentra ${targets} ${t}</span><span class="stars" id="fCount">0 / ${targets}</span></div>
+      <div class="find" id="fGrid">${cells.map(x => `<button data-k="${x === t ? 1 : 0}">${x}</button>`).join('')}</div>`,
+    ask: `Encuentra ${NUM[targets]} ${name}`,
+    after() {
+      const grid = $('#fGrid'), W = grid.clientWidth - 16, H = grid.clientHeight - 16, n = cells.length, gap = 8;
+      let best = { size: 0, cols: 1 };
+      for (let cols = 1; cols <= n; cols++) {
+        const rows = Math.ceil(n / cols), size = Math.min((W - gap * (cols - 1)) / cols, (H - gap * (rows - 1)) / rows);
+        if (size > best.size) best = { size, cols };
+      }
+      const sz = Math.floor(Math.min(best.size, 120));
+      grid.style.gridTemplateColumns = `repeat(${best.cols}, ${sz}px)`;
+      grid.style.gridAutoRows = sz + 'px';
+      grid.style.setProperty('--fs', Math.floor(sz * .68) + 'px');
+    },
+    promptClick(e) {
+      const btn = e.target.closest('#fGrid button');
+      if (!btn) { speak(this.ask); return; }
+      if (btn.classList.contains('got')) return;
+      if (btn.dataset.k === '1') {
+        btn.classList.add('got'); found++; sfx.tick();
+        $('#fCount').textContent = `${found} / ${targets}`;
+        if (found === targets) quizWin(null); else say(NUM[found]);
+      } else {
+        btn.classList.add('no'); sfx.bad(); setTimeout(() => btn.classList.remove('no'), 450);
+      }
+    },
+    win() { say('¡Las encontraste todas! ¡Ojos de águila!'); return 2000; },
+  };
+}
+
+// Listen! — escuchar una instrucción en inglés y tocar en orden
+function makeListen(stars) {
+  const cat = ['animals', 'food', 'things', 'body'][rnd(4)];
+  const n = stars < 4 ? 2 : stars < 10 ? 3 : 4;
+  const grid = pick(EN[cat].items, 6);
+  const order = pick(grid, n);
+  const phrase = 'Touch the ' + order.map(x => x[1]).join(', then the ') + '!';
+  return {
+    prompt: `<div class="ear">🎧</div><div class="ask">Listen! ${order.map((_, i) => i + 1).join(' → ')}</div>`,
+    ask: [[phrase, 'en']],
+    options: grid.map(x => ({ html: x[0], word: x[1] })),
+    seq: order.map(x => grid.indexOf(x)),
+    lang: 'en',
+    noSeq: [['Oops! Listen again.', 'en'], [phrase, 'en']],
+    win() { sayQ([[`${praise()} You did it!`, 'en'], ['¡Lo hiciste en orden!', 'es']]); return 2400; },
+  };
+}
+
 // "Where is the ...?" con una categoría de palabras en inglés
 function makeWords(cat, stars) {
   const opts = pick(EN[cat].items, stars < 6 ? 3 : 4), t = opts[0];
@@ -897,6 +1213,13 @@ function makeWords(cat, stars) {
 }
 
 const QUIZ = {
+  sigue: { title: '🔮 ¿Qué sigue?', back: 'retos', make: makePattern },
+  sumas: { title: '➕ Sumas y restas', back: 'retos', make: makeSum },
+  intruso: { title: '🤔 ¿Cuál no va?', back: 'retos', make: makeOdd },
+  inicial: { title: '🅰️ ¿Con qué empieza?', back: 'retos', make: makeInitial },
+  falta: { title: '🙈 ¿Qué falta?', back: 'retos', make: makeMissing },
+  encuentra: { title: '🔍 Encuentra', back: 'retos', make: makeFind },
+  en_listen: { title: '🎧 Listen!', make: makeListen },
   contar: { title: '🔢 ¿Cuántos hay?', make: s => makeCount(s, false) },
   en_numbers: { title: '🔢 How many?', make: s => makeCount(s, true) },
   en_words: { title: '👂 Where is it?', make: s => makeWords(['animals', 'food', 'things'][rnd(3)], s) },
@@ -979,40 +1302,235 @@ const QUIZ = {
 function startQuiz(kind) {
   show('quiz');
   Q.kind = kind; Q.stars = 0;
+  const back = QUIZ[kind].back || (kind.startsWith('en_') ? 'english' : 'menu');
   $('#qTitle').textContent = QUIZ[kind].title;
-  $('#qHome').dataset.go = kind.startsWith('en_') ? 'english' : 'menu';
-  $('#qHome').textContent = kind.startsWith('en_') ? '⬅️' : '🏠';
+  $('#qHome').dataset.go = back;
+  $('#qHome').textContent = back === 'menu' ? '🏠' : '⬅️';
   updStars(); nextRound();
 }
 function updStars() { $('#qStars').textContent = '⭐ ' + Q.stars; }
 function nextRound() {
   const g = gen;
-  Q.busy = false;
+  Q.busy = false; Q.step = 0;
   const r = QUIZ[Q.kind].make(Q.stars);
   Q.round = r;
+  const opts = r.options || [];
+  $('#quiz').classList.toggle('full', !!r.full);
   $('#qPrompt').innerHTML = r.prompt;
-  $('#qOpts').classList.toggle('four', r.options.length > 3);
-  $('#qOpts').innerHTML = r.options.map((o, i) => `<button class="qopt" data-i="${i}">${o.html}</button>`).join('');
-  setTimeout(() => { if (g === gen) speak(r.ask); }, 400);
+  $('#qOpts').classList.toggle('four', opts.length === 4);
+  $('#qOpts').classList.toggle('six', opts.length > 4);
+  $('#qOpts').innerHTML = opts.map((o, i) => `<button class="qopt" data-i="${i}">${o.html}</button>`).join('');
+  if (r.after) r.after();
+  if (r.start) {
+    // fase previa (p. ej. memorizar): las opciones aparecen al terminar
+    Q.busy = true;
+    $('#qOpts').classList.add('hide');
+    r.start(g).then(ok => {
+      if (!ok || g !== gen) return;
+      $('#qOpts').classList.remove('hide');
+      Q.busy = false; speak(r.ask);
+    });
+  } else {
+    $('#qOpts').classList.remove('hide');
+    setTimeout(() => { if (g === gen) speak(r.ask); }, 400);
+  }
 }
-$('#qPrompt').addEventListener('click', () => { if (!Q.busy && Q.round) speak(Q.round.ask); });
+function quizWin(btn) {
+  Q.busy = true;
+  if (btn) btn.classList.add('yes');
+  sfx.good();
+  Q.stars++; updStars();
+  const g = gen;
+  let wait = Q.round.win();
+  if (Q.stars % 5 === 0) { setTimeout(() => { if (g === gen) { confetti(); sfx.win(); } }, Math.max(200, wait - 900)); wait += 600; }
+  setTimeout(() => { if (g === gen) nextRound(); }, wait);
+}
+$('#qPrompt').addEventListener('click', e => {
+  if (!Q.round || Q.busy) return;
+  if (Q.round.promptClick) Q.round.promptClick(e);
+  else speak(Q.round.ask);
+});
 $('#qOpts').addEventListener('click', e => {
   const btn = e.target.closest('.qopt');
   if (!btn || Q.busy || btn.disabled) return;
-  const o = Q.round.options[+btn.dataset.i];
-  if (o.ok) {
-    Q.busy = true;
-    btn.classList.add('yes'); sfx.good();
-    Q.stars++; updStars();
-    const g = gen;
-    let wait = Q.round.win();
-    if (Q.stars % 5 === 0) { setTimeout(() => { if (g === gen) { confetti(); sfx.win(); } }, wait - 900); wait += 600; }
-    setTimeout(() => { if (g === gen) nextRound(); }, wait);
-  } else {
+  const r = Q.round, i = +btn.dataset.i, o = r.options[i];
+  if (r.seq) {
+    // tocar varias cosas en el orden pedido
+    if (i === r.seq[Q.step] && !btn.classList.contains('yes')) {
+      btn.classList.add('yes'); sfx.tick(); say(o.word, .9, r.lang || 'es');
+      Q.step++;
+      if (Q.step === r.seq.length) setTimeout(() => quizWin(null), 500);
+    } else {
+      $$('#qOpts .qopt').forEach(b => b.classList.remove('yes'));
+      btn.classList.add('no'); setTimeout(() => btn.classList.remove('no'), 450);
+      Q.step = 0; sfx.bad(); speak(r.noSeq);
+    }
+    return;
+  }
+  if (o.ok) quizWin(btn);
+  else {
     btn.classList.add('no'); btn.disabled = true;
     sfx.bad(); speak(o.no);
   }
 });
+
+/* =========================================================
+   SIMÓN: repetir la secuencia de colores (cada vez más larga)
+   ========================================================= */
+const SIMON = [{ c: '#ff3b30', f: 329.63 }, { c: '#1e6bff', f: 277.18 }, { c: '#34c759', f: 220 }, { c: '#ffd60a', f: 164.81 }];
+const Si = { seq: [], step: 0, listening: false };
+function startSimon() {
+  show('simon');
+  $('#pads').innerHTML = SIMON.map((p, i) => `<button class="pad" data-p="${i}" style="--c:${p.c}"></button>`).join('');
+  $('#sBest').textContent = '🏆 ' + S.simonBest;
+  $('#sStat').textContent = 'Mira los colores y repítelos 👀';
+  $('#sGo').hidden = false; $('#sGo').textContent = '▶ Empezar';
+  Si.listening = false;
+  say('Mira los colores y repítelos en el mismo orden');
+}
+function litPad(i, ms) {
+  const el = $('#pads').children[i]; if (!el) return;
+  el.classList.add('lit');
+  tone(SIMON[i].f, 0, ms / 1000, 'triangle', .25);
+  setTimeout(() => el.classList.remove('lit'), ms);
+}
+async function simonNext() {
+  const g = gen;
+  Si.seq.push(rnd(4)); Si.listening = false; Si.step = 0;
+  $('#sStat').textContent = `Nivel ${Si.seq.length} · 👀 Mira…`;
+  await sleep(800); if (g !== gen) return;
+  const ms = Math.max(280, 620 - Si.seq.length * 25);
+  for (const i of Si.seq) { litPad(i, ms); await sleep(ms + 170); if (g !== gen) return; }
+  $('#sStat').textContent = `Nivel ${Si.seq.length} · ¡Tu turno! 👆`;
+  Si.listening = true;
+}
+$('#sGo').addEventListener('click', () => { $('#sGo').hidden = true; Si.seq = []; simonNext(); });
+$('#pads').addEventListener('pointerdown', e => {
+  const b = e.target.closest('.pad'); if (!b || !Si.listening) return;
+  e.preventDefault();
+  const i = +b.dataset.p;
+  litPad(i, 260);
+  if (i === Si.seq[Si.step]) {
+    Si.step++;
+    if (Si.step === Si.seq.length) {
+      Si.listening = false;
+      const g = gen;
+      setTimeout(() => {
+        if (g !== gen) return;
+        if (Si.seq.length % 5 === 0) { confetti(60); sfx.win(); say(`¡Increíble! ¡Nivel ${NUM[Si.seq.length] || Si.seq.length}!`); }
+        else { sfx.good(); say('¡Muy bien!'); }
+        setTimeout(() => { if (g === gen) simonNext(); }, 1100);
+      }, 350);
+    }
+  } else {
+    Si.listening = false;
+    const score = Si.seq.length - 1;
+    const record = score > S.simonBest;
+    if (record) { S.simonBest = score; persist(); confetti(); }
+    sfx.bad();
+    $('#sBest').textContent = '🏆 ' + S.simonBest;
+    $('#sStat').textContent = record ? `¡Nuevo récord: ${score}! 🏆` : `¡Llegaste a ${score}! Récord: ${S.simonBest}`;
+    say(record ? `¡Nuevo récord! ¡${NUM[score] || score}!` : `¡Uy! Llegaste a ${NUM[score] || score}. ¡Otra vez!`);
+    $('#sGo').hidden = false; $('#sGo').textContent = '🔁 Otra vez';
+  }
+});
+
+/* =========================================================
+   LABERINTO: arrastrar el dedo hasta la meta (cada nivel más grande)
+   ========================================================= */
+const MAZE_PAIRS = [['🐭', '🧀', 'Lleva al ratón hasta el queso'], ['🐶', '🦴', 'Lleva al perro hasta el hueso'], ['🐰', '🥕', 'Lleva al conejo hasta la zanahoria'], ['🐝', '🌸', 'Lleva a la abeja hasta la flor'], ['🚗', '🏠', 'Lleva el carro hasta la casa'], ['🐵', '🍌', 'Lleva al mono hasta el banano'], ['🐧', '🐟', 'Lleva al pingüino hasta el pescado'], ['🦖', '🥚', 'Lleva al dinosaurio hasta su huevo']];
+const Z = { level: 1, cols: 0, rows: 0, cell: 0, walls: null, pos: [0, 0], goal: [0, 0], trail: null, pair: null, done: false, drag: false };
+// paredes por celda: 1 = arriba, 2 = derecha, 4 = abajo, 8 = izquierda
+function genMaze(cols, rows) {
+  const walls = new Array(cols * rows).fill(15), seen = new Array(cols * rows).fill(false);
+  const stack = [[0, 0]]; seen[0] = true;
+  const dirs = [[0, -1, 1, 4], [1, 0, 2, 8], [0, 1, 4, 1], [-1, 0, 8, 2]];
+  while (stack.length) {
+    const [x, y] = stack[stack.length - 1];
+    const next = shuffle(dirs.slice()).find(([dx, dy]) => { const nx = x + dx, ny = y + dy; return nx >= 0 && ny >= 0 && nx < cols && ny < rows && !seen[ny * cols + nx]; });
+    if (!next) { stack.pop(); continue; }
+    const [dx, dy, w, back] = next, nx = x + dx, ny = y + dy;
+    walls[y * cols + x] &= ~w; walls[ny * cols + nx] &= ~back;
+    seen[ny * cols + nx] = true; stack.push([nx, ny]);
+  }
+  return walls;
+}
+function startMaze() { show('maze'); Z.level = 1; newMaze(); }
+function newMaze() {
+  const wrap = $('#mazeWrap'), W = wrap.clientWidth, H = wrap.clientHeight;
+  const n = Math.min(3 + Z.level, 12);
+  if (W >= H) { Z.rows = n; Z.cols = Math.min(Math.max(n, Math.round(n * W / H)), 18); }
+  else { Z.cols = n; Z.rows = Math.min(Math.max(n, Math.round(n * H / W)), 18); }
+  Z.walls = genMaze(Z.cols, Z.rows);
+  Z.pos = [0, 0]; Z.goal = [Z.cols - 1, Z.rows - 1];
+  Z.trail = new Set(['0,0']); Z.done = false;
+  Z.pair = MAZE_PAIRS[rnd(MAZE_PAIRS.length)];
+  $('#mTitle').textContent = `🌀 Nivel ${Z.level}`;
+  sizeMaze(); drawMaze();
+  say(Z.pair[2]);
+}
+function sizeMaze() {
+  const wrap = $('#mazeWrap'), cv = $('#mz');
+  Z.cell = Math.floor(Math.min((wrap.clientWidth - 8) / Z.cols, (wrap.clientHeight - 8) / Z.rows));
+  const dpr = window.devicePixelRatio || 1;
+  cv.style.width = Z.cols * Z.cell + 'px'; cv.style.height = Z.rows * Z.cell + 'px';
+  cv.width = Z.cols * Z.cell * dpr; cv.height = Z.rows * Z.cell * dpr;
+  cv.getContext('2d').setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+function drawMaze() {
+  const ctx = $('#mz').getContext('2d'), c = Z.cell;
+  ctx.clearRect(0, 0, Z.cols * c, Z.rows * c);
+  ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, Z.cols * c, Z.rows * c);
+  ctx.fillStyle = '#e5dbff';
+  Z.trail.forEach(k => { const [x, y] = k.split(',').map(Number); ctx.fillRect(x * c, y * c, c, c); });
+  ctx.strokeStyle = '#5f3dc4'; ctx.lineWidth = Math.max(3, c * .1); ctx.lineCap = 'round';
+  ctx.beginPath();
+  for (let y = 0; y < Z.rows; y++) for (let x = 0; x < Z.cols; x++) {
+    const w = Z.walls[y * Z.cols + x], X = x * c, Y = y * c;
+    if (w & 1) { ctx.moveTo(X, Y); ctx.lineTo(X + c, Y); }
+    if (w & 2) { ctx.moveTo(X + c, Y); ctx.lineTo(X + c, Y + c); }
+    if (w & 4) { ctx.moveTo(X, Y + c); ctx.lineTo(X + c, Y + c); }
+    if (w & 8) { ctx.moveTo(X, Y); ctx.lineTo(X, Y + c); }
+  }
+  ctx.stroke();
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.font = `${Math.floor(c * .66)}px "Apple Color Emoji","Noto Color Emoji",sans-serif`;
+  ctx.fillText(Z.pair[1], (Z.goal[0] + .5) * c, (Z.goal[1] + .55) * c);
+  ctx.font = `${Math.floor(c * .74)}px "Apple Color Emoji","Noto Color Emoji",sans-serif`;
+  ctx.fillText(Z.pair[0], (Z.pos[0] + .5) * c, (Z.pos[1] + .55) * c);
+}
+function canStep(x, y, dx, dy) {
+  const w = Z.walls[y * Z.cols + x];
+  return dx === 1 ? !(w & 2) : dx === -1 ? !(w & 8) : dy === 1 ? !(w & 4) : !(w & 1);
+}
+// avanza en línea recta hacia la celda tocada, sin atravesar paredes
+function mazeTo(tx, ty) {
+  if (Z.done) return;
+  let [x, y] = Z.pos;
+  if (tx !== x && ty !== y) return;
+  const dx = Math.sign(tx - x), dy = Math.sign(ty - y);
+  let moved = false;
+  while ((x !== tx || y !== ty) && canStep(x, y, dx, dy)) { x += dx; y += dy; Z.trail.add(x + ',' + y); moved = true; }
+  if (!moved) return;
+  Z.pos = [x, y]; tone(700 + rnd(200), 0, .04, 'sine', .05);
+  drawMaze();
+  if (x === Z.goal[0] && y === Z.goal[1]) {
+    Z.done = true; sfx.win(); confetti(); say('¡Llegaste! ¡Muy bien!');
+    const g = gen;
+    setTimeout(() => { if (g === gen) { Z.level++; newMaze(); } }, 2300);
+  }
+}
+function mazePointer(e) {
+  const r = $('#mz').getBoundingClientRect();
+  const x = Math.floor((e.clientX - r.left) / r.width * Z.cols), y = Math.floor((e.clientY - r.top) / r.height * Z.rows);
+  if (x >= 0 && y >= 0 && x < Z.cols && y < Z.rows) mazeTo(x, y);
+}
+$('#mz').addEventListener('pointerdown', e => { e.preventDefault(); Z.drag = true; try { $('#mz').setPointerCapture(e.pointerId); } catch (_) {} mazePointer(e); });
+$('#mz').addEventListener('pointermove', e => { if (Z.drag) mazePointer(e); });
+$('#mz').addEventListener('pointerup', () => { Z.drag = false; });
+$('#mz').addEventListener('pointercancel', () => { Z.drag = false; });
+$('#mNew').addEventListener('click', () => { sfx.tick(); newMaze(); });
+window.addEventListener('resize', () => { if ($('#maze').classList.contains('active') && Z.walls) { sizeMaze(); drawMaze(); } });
 
 /* =========================================================
    LEARN: tarjetas para aprender palabras en inglés
